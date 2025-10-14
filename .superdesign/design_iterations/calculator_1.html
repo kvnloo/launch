@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modern Calculator</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="calculator_theme.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-sans) !important;
+            background: var(--background) !important;
+            color: var(--foreground) !important;
+            min-height: 100vh !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            padding: 2rem !important;
+        }
+
+        .calculator-container {
+            width: 100%;
+            max-width: 400px;
+            background: var(--card);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-2xl);
+            padding: 1.5rem;
+            border: 1px solid var(--border);
+        }
+
+        .display-container {
+            background: var(--display-bg);
+            border-radius: var(--radius-lg);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            min-height: 120px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            gap: 0.5rem;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border);
+        }
+
+        .display-expression {
+            font-family: var(--font-mono);
+            font-size: 1rem;
+            color: var(--display-secondary);
+            text-align: right;
+            min-height: 1.5rem;
+            letter-spacing: var(--tracking-normal);
+            animation: displayFade 200ms ease-out;
+        }
+
+        .display-result {
+            font-family: var(--font-mono);
+            font-size: 2.5rem;
+            font-weight: 600;
+            color: var(--display-text);
+            text-align: right;
+            letter-spacing: -0.02em;
+            animation: numberEntry 200ms ease-out;
+        }
+
+        .button-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0.75rem;
+        }
+
+        .calc-button {
+            background: var(--primary);
+            color: var(--primary-foreground);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: 1.25rem;
+            font-size: 1.25rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 150ms ease;
+            box-shadow: var(--shadow-xs);
+            position: relative;
+            overflow: hidden;
+            font-family: var(--font-sans);
+        }
+
+        .calc-button:hover {
+            transform: scale(1.02);
+            filter: brightness(1.1);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .calc-button:active {
+            transform: scale(0.95);
+            filter: brightness(0.8);
+            transition: all 100ms ease;
+        }
+
+        .calc-button.function {
+            background: var(--secondary);
+            color: var(--secondary-foreground);
+        }
+
+        .calc-button.operator {
+            background: var(--operator-color);
+            color: var(--accent-foreground);
+            font-weight: 600;
+        }
+
+        .calc-button.operator:hover {
+            background: var(--operator-hover);
+        }
+
+        .calc-button.operator.active {
+            transform: scale(1.05);
+            box-shadow: 0 0 0 3px var(--ring);
+        }
+
+        .calc-button.equals {
+            background: var(--equals-color);
+            color: var(--accent-foreground);
+            font-weight: 700;
+        }
+
+        .calc-button.equals:hover {
+            background: var(--equals-hover);
+        }
+
+        .calc-button.zero {
+            grid-column: span 2;
+        }
+
+        /* Ripple effect */
+        .calc-button::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 400ms ease, height 400ms ease, opacity 400ms ease;
+            opacity: 0;
+        }
+
+        .calc-button:active::before {
+            width: 150%;
+            height: 150%;
+            opacity: 0;
+        }
+
+        /* Animations */
+        @keyframes numberEntry {
+            from {
+                transform: scale(0.98);
+                opacity: 0.7;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        @keyframes resultCalc {
+            0% {
+                transform: scale(1.05);
+                opacity: 0;
+            }
+            60% {
+                transform: scale(0.98);
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        @keyframes displayFade {
+            from {
+                opacity: 0.5;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes errorShake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-8px); }
+            75% { transform: translateX(8px); }
+        }
+
+        @keyframes buttonStagger {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .calc-button {
+            animation: buttonStagger 300ms ease-out backwards;
+        }
+
+        .calc-button:nth-child(1) { animation-delay: 0ms; }
+        .calc-button:nth-child(2) { animation-delay: 50ms; }
+        .calc-button:nth-child(3) { animation-delay: 100ms; }
+        .calc-button:nth-child(4) { animation-delay: 150ms; }
+        .calc-button:nth-child(5) { animation-delay: 200ms; }
+        .calc-button:nth-child(6) { animation-delay: 250ms; }
+        .calc-button:nth-child(7) { animation-delay: 300ms; }
+        .calc-button:nth-child(8) { animation-delay: 350ms; }
+        .calc-button:nth-child(9) { animation-delay: 400ms; }
+        .calc-button:nth-child(10) { animation-delay: 450ms; }
+        .calc-button:nth-child(11) { animation-delay: 500ms; }
+        .calc-button:nth-child(12) { animation-delay: 550ms; }
+        .calc-button:nth-child(13) { animation-delay: 600ms; }
+        .calc-button:nth-child(14) { animation-delay: 650ms; }
+        .calc-button:nth-child(15) { animation-delay: 700ms; }
+        .calc-button:nth-child(16) { animation-delay: 750ms; }
+        .calc-button:nth-child(17) { animation-delay: 800ms; }
+        .calc-button:nth-child(18) { animation-delay: 850ms; }
+        .calc-button:nth-child(19) { animation-delay: 900ms; }
+        .calc-button:nth-child(20) { animation-delay: 950ms; }
+
+        .error-shake {
+            animation: errorShake 400ms ease;
+        }
+
+        .result-animate {
+            animation: resultCalc 300ms ease-out;
+        }
+
+        /* Responsive design */
+        @media (max-width: 480px) {
+            .calculator-container {
+                padding: 1rem;
+            }
+
+            .display-result {
+                font-size: 2rem;
+            }
+
+            .calc-button {
+                padding: 1rem;
+                font-size: 1.1rem;
+            }
+
+            .button-grid {
+                gap: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="calculator-container">
+        <div class="display-container">
+            <div class="display-expression" id="expression"></div>
+            <div class="display-result" id="result">0</div>
+        </div>
+
+        <div class="button-grid">
+            <button class="calc-button function" onclick="calculator.clear()">C</button>
+            <button class="calc-button function" onclick="calculator.backspace()">←</button>
+            <button class="calc-button function" onclick="calculator.percentage()">%</button>
+            <button class="calc-button operator" onclick="calculator.operator('÷')">÷</button>
+
+            <button class="calc-button" onclick="calculator.number('7')">7</button>
+            <button class="calc-button" onclick="calculator.number('8')">8</button>
+            <button class="calc-button" onclick="calculator.number('9')">9</button>
+            <button class="calc-button operator" onclick="calculator.operator('×')">×</button>
+
+            <button class="calc-button" onclick="calculator.number('4')">4</button>
+            <button class="calc-button" onclick="calculator.number('5')">5</button>
+            <button class="calc-button" onclick="calculator.number('6')">6</button>
+            <button class="calc-button operator" onclick="calculator.operator('-')">-</button>
+
+            <button class="calc-button" onclick="calculator.number('1')">1</button>
+            <button class="calc-button" onclick="calculator.number('2')">2</button>
+            <button class="calc-button" onclick="calculator.number('3')">3</button>
+            <button class="calc-button operator" onclick="calculator.operator('+')">+</button>
+
+            <button class="calc-button function" onclick="calculator.toggleSign()">±</button>
+            <button class="calc-button zero" onclick="calculator.number('0')">0</button>
+            <button class="calc-button" onclick="calculator.decimal()">.</button>
+            <button class="calc-button equals" onclick="calculator.equals()">=</button>
+        </div>
+    </div>
+
+    <script>
+        const calculator = {
+            currentValue: '0',
+            previousValue: '',
+            operator: null,
+            waitingForOperand: false,
+            lastOperatorButton: null,
+
+            updateDisplay() {
+                const resultElement = document.getElementById('result');
+                const expressionElement = document.getElementById('expression');
+
+                resultElement.textContent = this.currentValue;
+
+                if (this.previousValue && this.operator) {
+                    expressionElement.textContent = `${this.previousValue} ${this.operator}`;
+                } else {
+                    expressionElement.textContent = '';
+                }
+            },
+
+            number(num) {
+                if (this.waitingForOperand) {
+                    this.currentValue = num;
+                    this.waitingForOperand = false;
+                } else {
+                    this.currentValue = this.currentValue === '0' ? num : this.currentValue + num;
+                }
+                this.updateDisplay();
+            },
+
+            decimal() {
+                if (this.waitingForOperand) {
+                    this.currentValue = '0.';
+                    this.waitingForOperand = false;
+                } else if (!this.currentValue.includes('.')) {
+                    this.currentValue += '.';
+                }
+                this.updateDisplay();
+            },
+
+            operator(op) {
+                const value = parseFloat(this.currentValue);
+
+                // Remove active class from previous operator
+                if (this.lastOperatorButton) {
+                    this.lastOperatorButton.classList.remove('active');
+                }
+
+                // Add active class to current operator
+                const operatorButtons = document.querySelectorAll('.calc-button.operator');
+                operatorButtons.forEach(btn => {
+                    if (btn.textContent === op) {
+                        btn.classList.add('active');
+                        this.lastOperatorButton = btn;
+                    }
+                });
+
+                if (this.operator && this.waitingForOperand) {
+                    this.operator = op;
+                    this.updateDisplay();
+                    return;
+                }
+
+                if (this.previousValue === '') {
+                    this.previousValue = this.currentValue;
+                } else if (this.operator) {
+                    const result = this.calculate(
+                        parseFloat(this.previousValue),
+                        value,
+                        this.operator
+                    );
+                    this.currentValue = String(result);
+                    this.previousValue = String(result);
+                }
+
+                this.waitingForOperand = true;
+                this.operator = op;
+                this.updateDisplay();
+            },
+
+            equals() {
+                const value = parseFloat(this.currentValue);
+
+                if (this.operator && this.previousValue !== '') {
+                    const result = this.calculate(
+                        parseFloat(this.previousValue),
+                        value,
+                        this.operator
+                    );
+
+                    const resultElement = document.getElementById('result');
+                    resultElement.classList.add('result-animate');
+                    setTimeout(() => resultElement.classList.remove('result-animate'), 300);
+
+                    this.currentValue = String(result);
+                    this.previousValue = '';
+                    this.operator = null;
+                    this.waitingForOperand = true;
+
+                    // Remove active class from operator
+                    if (this.lastOperatorButton) {
+                        this.lastOperatorButton.classList.remove('active');
+                        this.lastOperatorButton = null;
+                    }
+                }
+
+                this.updateDisplay();
+            },
+
+            calculate(first, second, operator) {
+                switch(operator) {
+                    case '+':
+                        return first + second;
+                    case '-':
+                        return first - second;
+                    case '×':
+                        return first * second;
+                    case '÷':
+                        if (second === 0) {
+                            this.showError();
+                            return 0;
+                        }
+                        return first / second;
+                    default:
+                        return second;
+                }
+            },
+
+            clear() {
+                this.currentValue = '0';
+                this.previousValue = '';
+                this.operator = null;
+                this.waitingForOperand = false;
+
+                // Remove active class from operator
+                if (this.lastOperatorButton) {
+                    this.lastOperatorButton.classList.remove('active');
+                    this.lastOperatorButton = null;
+                }
+
+                this.updateDisplay();
+            },
+
+            backspace() {
+                if (!this.waitingForOperand) {
+                    this.currentValue = this.currentValue.length > 1
+                        ? this.currentValue.slice(0, -1)
+                        : '0';
+                    this.updateDisplay();
+                }
+            },
+
+            percentage() {
+                const value = parseFloat(this.currentValue);
+                this.currentValue = String(value / 100);
+                this.updateDisplay();
+            },
+
+            toggleSign() {
+                this.currentValue = String(parseFloat(this.currentValue) * -1);
+                this.updateDisplay();
+            },
+
+            showError() {
+                const container = document.querySelector('.calculator-container');
+                container.classList.add('error-shake');
+                setTimeout(() => container.classList.remove('error-shake'), 400);
+            }
+        };
+
+        // Keyboard support
+        document.addEventListener('keydown', (e) => {
+            if (e.key >= '0' && e.key <= '9') {
+                calculator.number(e.key);
+            } else if (e.key === '.') {
+                calculator.decimal();
+            } else if (e.key === '+' || e.key === '-') {
+                calculator.operator(e.key);
+            } else if (e.key === '*') {
+                calculator.operator('×');
+            } else if (e.key === '/') {
+                e.preventDefault();
+                calculator.operator('÷');
+            } else if (e.key === 'Enter' || e.key === '=') {
+                calculator.equals();
+            } else if (e.key === 'Escape' || e.key === 'c' || e.key === 'C') {
+                calculator.clear();
+            } else if (e.key === 'Backspace') {
+                calculator.backspace();
+            } else if (e.key === '%') {
+                calculator.percentage();
+            }
+        });
+
+        // Initialize display
+        calculator.updateDisplay();
+    </script>
+</body>
+</html>
