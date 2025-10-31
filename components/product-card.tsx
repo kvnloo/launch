@@ -23,7 +23,7 @@ export function ProductCard({ name, badge, tag, price, isNew }: ProductCardProps
             className={
               isNew
                 ? "bg-white/20 text-white hover:bg-white/30 backdrop-blur-sm"
-                : "bg-[#d4e5c7] text-[#2d4a3a] hover:bg-[#d4e5c7]"
+                : "bg-secondary text-secondary-foreground hover:bg-secondary"
             }
           >
             {badge}
@@ -41,7 +41,7 @@ export function ProductCard({ name, badge, tag, price, isNew }: ProductCardProps
         {/* Product Info */}
         <h3 className="text-xl font-light text-white mb-4 text-balance">{name}</h3>
 
-        <Button className="w-full backdrop-blur-md bg-[#1a2e22] hover:bg-[#243a2e] text-white rounded-full mb-3 transition-all">
+        <Button className="w-full backdrop-blur-md bg-primary hover:bg-primary/90 text-primary-foreground rounded-full mb-3 transition-all">
           Shop Now
         </Button>
 

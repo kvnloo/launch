@@ -53,47 +53,45 @@ export function NavDropdown({ trigger, items }: NavDropdownProps) {
     >
       <a
         href="#"
-        className="text-white px-3 py-1.5 rounded-full transition-all duration-200 hover:bg-white/10 inline-block"
+        className="text-foreground px-3 py-1.5 rounded-full transition-all duration-200 hover:bg-primary/10 inline-block"
       >
         {trigger}
       </a>
 
       {isOpen && (
-        <div className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-[300px] animate-dropdown-appear">
-          <div className="dropdown-blur rounded-2xl shadow-2xl p-6 border border-white/20">
-            <div className="space-y-4">
-              {items.map((item) => (
-                <a key={item.id} href="#" className="flex items-center gap-3 group hover:brightness-110 transition-all">
-                  <div className="w-12 h-12 rounded-lg overflow-hidden flex-shrink-0 bg-white/20">
-                    <img
-                      src={item.image || "/placeholder.svg"}
-                      alt={item.name}
-                      className="w-full h-full object-cover"
-                    />
+        <div className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-[300px] animate-dropdown-appear dropdown-blur rounded-2xl shadow-2xl p-6 border border-border">
+          <div className="space-y-4">
+            {items.map((item) => (
+              <a key={item.id} href="#" className="flex items-center gap-3 group hover:brightness-110 transition-all">
+                <div className="w-12 h-12 rounded-lg overflow-hidden flex-shrink-0 bg-primary/20">
+                  <img
+                    src={item.image || "/placeholder.svg"}
+                    alt={item.name}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-2 mb-0.5">
+                    <span className="text-xs text-muted-foreground font-light">{item.code}</span>
+                    {item.badge && (
+                      <Badge className="bg-primary text-primary-foreground hover:bg-primary border-0 text-[10px] px-2 py-0 h-5">
+                        {item.badge}
+                      </Badge>
+                    )}
                   </div>
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2 mb-0.5">
-                      <span className="text-xs text-white/70 font-light">{item.code}</span>
-                      {item.badge && (
-                        <Badge className="bg-[#c4d96f] text-[#1a3a2a] hover:bg-[#c4d96f] border-0 text-[10px] px-2 py-0 h-5">
-                          {item.badge}
-                        </Badge>
-                      )}
-                    </div>
-                    <p className="text-sm text-white font-medium">{item.name}</p>
-                  </div>
-                </a>
-              ))}
-            </div>
-
-            <a
-              href="#"
-              className="flex items-center justify-between mt-6 pt-4 border-t border-white/10 text-sm text-white hover:opacity-70 transition-opacity group"
-            >
-              <span>Shop All Products</span>
-              <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-            </a>
+                  <p className="text-sm text-foreground font-medium">{item.name}</p>
+                </div>
+              </a>
+            ))}
           </div>
+
+          <a
+            href="#"
+            className="flex items-center justify-between mt-6 pt-4 border-t border-border text-sm text-foreground hover:opacity-70 transition-opacity group"
+          >
+            <span>Shop All Products</span>
+            <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+          </a>
         </div>
       )}
     </div>
