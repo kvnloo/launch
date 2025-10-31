@@ -121,10 +121,11 @@ export default function Home() {
       <nav className="fixed top-0 left-0 right-0 z-50">
         <div className="max-w-7xl mx-auto px-6 py-6 flex items-center justify-between">
           <div className="flex items-center gap-8">
-            <div className="flex items-center gap-0">
+            <div className="flex items-baseline gap-0">
               <span className="font-medium text-white">zer</span>
-              <div className="w-2 h-2 rounded-full bg-white" />
+              <div className="w-2 h-2 rounded-full bg-white -mb-[3px]" />
             </div>
+            {/* </CHANGE> */}
             <div className="hidden md:flex items-center gap-6 text-sm">
               <NavDropdown trigger="Products" items={shopItems} />
               <NavDropdown trigger="Services" items={scienceItems} />
