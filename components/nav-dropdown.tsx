@@ -28,7 +28,7 @@ export function NavDropdown({ trigger, items }: NavDropdownProps) {
 
       {isOpen && (
         <div className="absolute top-full left-0 mt-4 w-[300px] animate-in fade-in slide-in-from-top-2 duration-200">
-          <div className="bg-[#c8c6be]/90 backdrop-blur-xl rounded-2xl shadow-2xl p-6 border border-white/10">
+          <div className="bg-white/10 backdrop-blur-2xl rounded-2xl shadow-2xl p-6 border border-white/20">
             <div className="space-y-4">
               {items.map((item) => (
                 <a key={item.id} href="#" className="flex items-center gap-3 group hover:brightness-110 transition-all">
