@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useRef, useEffect } from "react"
 import { Badge } from "@/components/ui/badge"
 import { ChevronRight } from "lucide-react"
 
@@ -19,16 +19,48 @@ interface NavDropdownProps {
 
 export function NavDropdown({ trigger, items }: NavDropdownProps) {
   const [isOpen, setIsOpen] = useState(false)
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null)
+
+  const handleMouseEnter = () => {
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current)
+      timeoutRef.current = null
+    }
+    setIsOpen(true)
+  }
+
+  const handleMouseLeave = () => {
+    // Add small delay before closing to allow mouse movement to dropdown
+    timeoutRef.current = setTimeout(() => {
+      setIsOpen(false)
+    }, 100)
+  }
+
+  // Cleanup timeout on unmount
+  useEffect(() => {
+    return () => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current)
+      }
+    }
+  }, [])
 
   return (
-    <div className="relative" onMouseEnter={() => setIsOpen(true)} onMouseLeave={() => setIsOpen(false)}>
-      <a href="#" className="text-white hover:opacity-70 transition-opacity">
+    <div
+      className="relative"
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+    >
+      <a
+        href="#"
+        className="text-white px-3 py-1.5 rounded-full transition-all duration-200 hover:bg-white/10 inline-block"
+      >
         {trigger}
       </a>
 
       {isOpen && (
-        <div className="absolute top-full left-0 mt-4 w-[300px] animate-in fade-in slide-in-from-top-2 duration-200">
-          <div className="bg-white/10 backdrop-blur-2xl rounded-2xl shadow-2xl p-6 border border-white/20">
+        <div className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-[300px] animate-dropdown-appear">
+          <div className="dropdown-blur rounded-2xl shadow-2xl p-6 border border-white/20">
             <div className="space-y-4">
               {items.map((item) => (
                 <a key={item.id} href="#" className="flex items-center gap-3 group hover:brightness-110 transition-all">

@@ -124,3 +124,42 @@
     @apply bg-background text-foreground;
   }
 }
+
+@layer components {
+  /* Dropdown blur effect with enhanced visibility */
+  .dropdown-blur {
+    background: rgba(30, 35, 50, 0.85) !important;
+    -webkit-backdrop-filter: blur(40px) saturate(180%);
+    backdrop-filter: blur(40px) saturate(180%);
+  }
+
+  /* Fallback for browsers that don't support backdrop-filter */
+  @supports not (backdrop-filter: blur(40px)) {
+    .dropdown-blur {
+      background: rgba(20, 25, 40, 0.98) !important;
+    }
+  }
+}
+
+/* Custom dropdown animation with subtle bounce */
+@keyframes dropdown-appear {
+  0% {
+    opacity: 0;
+    transform: translateY(-10px) scale(0.95);
+  }
+  50% {
+    opacity: 1;
+    transform: translateY(0) scale(1.02);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.animate-dropdown-appear {
+  animation: dropdown-appear 250ms ease-out;
+  transform-origin: top center;
+  will-change: transform, opacity;
+}
+
