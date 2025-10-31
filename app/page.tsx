@@ -1,7 +1,6 @@
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { ProductCard } from "@/components/product-card"
-import { HeroSection } from "@/components/hero-section"
 import { Search, ShoppingCart, User } from "lucide-react"
 
 export default function Home() {
@@ -41,47 +40,77 @@ export default function Home() {
   ]
 
   return (
-    <main className="min-h-screen bg-[#e8ebe8]">
-      {/* Navigation */}
-      <nav className="fixed top-0 left-0 right-0 z-50 backdrop-blur-md bg-white/30 border-b border-white/20">
-        <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+    <main className="min-h-screen">
+      <nav className="fixed top-0 left-0 right-0 z-50">
+        <div className="max-w-7xl mx-auto px-6 py-6 flex items-center justify-between">
           <div className="flex items-center gap-8">
             <div className="flex items-center gap-2">
-              <div className="w-2 h-2 rounded-full bg-[#2d4a3a]" />
-              <span className="font-semibold text-[#2d4a3a]">Seed</span>
+              <div className="w-2 h-2 rounded-full bg-white" />
+              <span className="font-medium text-white">Seed</span>
             </div>
             <div className="hidden md:flex items-center gap-6 text-sm">
-              <a href="#" className="text-[#2d4a3a] hover:opacity-70 transition-opacity">
+              <a href="#" className="text-white hover:opacity-70 transition-opacity">
                 Shop
               </a>
-              <a href="#" className="text-[#2d4a3a] hover:opacity-70 transition-opacity">
+              <a href="#" className="text-white hover:opacity-70 transition-opacity">
                 Science
               </a>
-              <a href="#" className="text-[#2d4a3a] hover:opacity-70 transition-opacity">
+              <a href="#" className="text-white hover:opacity-70 transition-opacity">
                 Learn
               </a>
             </div>
           </div>
 
           <div className="flex items-center gap-6">
-            <button className="text-[#2d4a3a] hover:opacity-70 transition-opacity" aria-label="Search">
+            <button className="text-white hover:opacity-70 transition-opacity" aria-label="Search">
               <Search className="w-5 h-5" />
             </button>
-            <button className="text-[#2d4a3a] hover:opacity-70 transition-opacity" aria-label="Cart">
+            <button className="text-white hover:opacity-70 transition-opacity" aria-label="Cart">
               <ShoppingCart className="w-5 h-5" />
             </button>
-            <button className="text-[#2d4a3a] hover:opacity-70 transition-opacity" aria-label="Account">
+            <button className="text-white hover:opacity-70 transition-opacity" aria-label="Account">
               <User className="w-5 h-5" />
             </button>
           </div>
         </div>
       </nav>
 
-      {/* Hero Section */}
-      <HeroSection />
+      <section className="relative h-screen w-full overflow-hidden bg-[#d8dcd8]">
+        {/* Video Background */}
+        <video autoPlay loop muted playsInline className="absolute inset-0 w-full h-full object-cover">
+          <source src="/seed-probiotic-bottle-rotating-slowly-on-light-sag.jpg" type="video/mp4" />
+        </video>
 
-      {/* Products Section */}
-      <section className="py-20 px-6 bg-[#2d4a3a]">
+        {/* Hero Content */}
+        <div className="relative z-10 h-full flex items-center">
+          <div className="max-w-7xl mx-auto px-6 w-full">
+            <div className="max-w-2xl">
+              <h1 className="text-5xl md:text-6xl lg:text-7xl font-light text-white mb-6 leading-tight text-balance">
+                The probiotic pioneering the future of gut health.
+              </h1>
+              <p className="text-white/90 text-lg mb-8 text-balance">
+                DS-01® Daily Synbiotic is clinically proven to deliver relief from bloating, gas, and irregularity.*
+              </p>
+              <Button className="bg-white text-[#1a3a2a] hover:bg-white/90 rounded-full px-8 py-6 text-base">
+                Is DS-01® right for you?
+              </Button>
+            </div>
+          </div>
+        </div>
+
+        {/* Pause Button */}
+        <button
+          className="absolute bottom-8 right-8 z-20 w-12 h-12 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center text-white hover:bg-white/30 transition-colors"
+          aria-label="Pause video"
+        >
+          <svg width="12" height="14" viewBox="0 0 12 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="4" height="14" fill="currentColor" />
+            <rect x="8" width="4" height="14" fill="currentColor" />
+          </svg>
+        </button>
+      </section>
+
+      <section className="py-20 px-6 bg-[#1a3a2a]">
         <div className="max-w-7xl mx-auto">
           <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 gap-6">
             <div>
@@ -107,13 +136,12 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Bottom Section */}
-      <section className="py-20 px-6 bg-[#f5f3ed]">
+      <section className="py-20 px-6 bg-[#f5f1e8]">
         <div className="max-w-7xl mx-auto">
           <div className="flex flex-col md:flex-row gap-12 items-center">
             <div className="flex-1">
-              <Badge className="mb-4 bg-[#d4e5c7] text-[#2d4a3a] hover:bg-[#d4e5c7]">Bundle + Save 25%</Badge>
-              <h2 className="text-4xl md:text-5xl font-light text-[#2d4a3a] mb-6 text-balance">
+              <Badge className="mb-4 bg-[#c8d9b8] text-[#1a3a2a] hover:bg-[#c8d9b8] border-0">Bundle + Save 25%</Badge>
+              <h2 className="text-4xl md:text-5xl font-light text-[#1a3a2a] mb-6 text-balance">
                 Daily essentials for nutrition and gut health.
               </h2>
             </div>

@@ -45,6 +45,13 @@ export function ProductCard({ name, badge, tag, price, isNew }: ProductCardProps
           Shop Now
         </Button>
 
+        <Button
+          variant="outline"
+          className="w-full backdrop-blur-md border-white/30 text-white hover:bg-white/10 hover:text-white rounded-full mb-3 transition-all bg-transparent"
+        >
+          Learn More
+        </Button>
+
         <p className="text-sm text-white/60 text-center">Starting at {price} per month</p>
       </div>
     </div>
