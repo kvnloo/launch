@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { ProductCard } from "@/components/product-card"
+import { NavDropdown } from "@/components/nav-dropdown"
 import { Search, ShoppingCart, User } from "lucide-react"
 
 export default function Home() {
@@ -39,6 +40,82 @@ export default function Home() {
     },
   ]
 
+  const shopItems = [
+    {
+      id: "ds-01",
+      name: "Daily Synbiotic",
+      code: "DS-01®",
+      image: "/seed-probiotic-bottle-dark-green-sage-color-produc.jpg",
+    },
+    {
+      id: "dm-02",
+      name: "Daily Multivitamin",
+      code: "DM-02™",
+      image: "/seed-probiotic-bottle-tilted-dark-green-sage-color.jpg",
+    },
+    {
+      id: "duo",
+      name: "Daily Essentials Duo",
+      code: "Bundle",
+      image: "/seed-probiotic-bottle-dark-green-sage-color-produc.jpg",
+      badge: "Save 25%",
+    },
+    {
+      id: "am-02",
+      name: "Energy + Focus",
+      code: "AM-02™",
+      image: "/seed-probiotic-bottle-tilted-dark-green-sage-color.jpg",
+    },
+    {
+      id: "pm-02",
+      name: "Sleep + Restore",
+      code: "PM-02™",
+      image: "/seed-probiotic-bottle-dark-green-sage-color-produc.jpg",
+    },
+    {
+      id: "pds-08",
+      name: "Pediatric Daily Synbiotic",
+      code: "PDS-08®",
+      image: "/seed-probiotic-bottle-tilted-dark-green-sage-color.jpg",
+    },
+    {
+      id: "vs-01",
+      name: "Vaginal Synbiotic",
+      code: "VS-01™",
+      image: "/seed-probiotic-bottle-dark-green-sage-color-produc.jpg",
+    },
+  ]
+
+  const scienceItems = [
+    {
+      id: "research",
+      name: "Research & Development",
+      code: "R&D",
+      image: "/seed-probiotic-bottle-dark-green-sage-color-produc.jpg",
+    },
+    {
+      id: "clinical",
+      name: "Clinical Studies",
+      code: "Studies",
+      image: "/seed-probiotic-bottle-tilted-dark-green-sage-color.jpg",
+    },
+  ]
+
+  const learnItems = [
+    {
+      id: "gut-health",
+      name: "Gut Health 101",
+      code: "Learn",
+      image: "/seed-probiotic-bottle-dark-green-sage-color-produc.jpg",
+    },
+    {
+      id: "microbiome",
+      name: "The Microbiome",
+      code: "Learn",
+      image: "/seed-probiotic-bottle-tilted-dark-green-sage-color.jpg",
+    },
+  ]
+
   return (
     <main className="min-h-screen">
       <nav className="fixed top-0 left-0 right-0 z-50">
@@ -49,15 +126,9 @@ export default function Home() {
               <span className="font-medium text-white">Seed</span>
             </div>
             <div className="hidden md:flex items-center gap-6 text-sm">
-              <a href="#" className="text-white hover:opacity-70 transition-opacity">
-                Shop
-              </a>
-              <a href="#" className="text-white hover:opacity-70 transition-opacity">
-                Science
-              </a>
-              <a href="#" className="text-white hover:opacity-70 transition-opacity">
-                Learn
-              </a>
+              <NavDropdown trigger="Shop" items={shopItems} />
+              <NavDropdown trigger="Science" items={scienceItems} />
+              <NavDropdown trigger="Learn" items={learnItems} />
             </div>
           </div>
 
