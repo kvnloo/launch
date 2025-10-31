@@ -3,8 +3,8 @@ import { Button } from "@/components/ui/button"
 export function HeroSection() {
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-16">
-      {/* Background with glass morphism effect */}
-      <div className="absolute inset-0 bg-gradient-to-br from-[#e8ebe8] via-[#d8dcd8] to-[#c8ccc8]" />
+      {/* Background with dark gradient - Harness.io dark mode */}
+      <div className="absolute inset-0 bg-gradient-to-br from-background via-card to-muted" />
 
       {/* Product Image */}
       <div className="absolute right-0 top-1/2 -translate-y-1/2 w-[60%] h-[80%] opacity-90">
