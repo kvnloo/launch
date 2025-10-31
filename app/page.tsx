@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { ProductCard } from "@/components/product-card"
 import { HeroSection } from "@/components/hero-section"
+import { Search, ShoppingCart, User } from "lucide-react"
 
 export default function Home() {
   const products = [
@@ -61,6 +62,18 @@ export default function Home() {
               </a>
             </div>
           </div>
+
+          <div className="flex items-center gap-6">
+            <button className="text-[#2d4a3a] hover:opacity-70 transition-opacity" aria-label="Search">
+              <Search className="w-5 h-5" />
+            </button>
+            <button className="text-[#2d4a3a] hover:opacity-70 transition-opacity" aria-label="Cart">
+              <ShoppingCart className="w-5 h-5" />
+            </button>
+            <button className="text-[#2d4a3a] hover:opacity-70 transition-opacity" aria-label="Account">
+              <User className="w-5 h-5" />
+            </button>
+          </div>
         </div>
       </nav>
 
@@ -106,7 +119,11 @@ export default function Home() {
             </div>
             <div className="flex-1 relative">
               <div className="relative w-full aspect-square max-w-md mx-auto">
-                <img src="/seed-probiotic-bottle-dark-green-sage-color-produc.jpg" alt="Seed Products" className="w-full h-full object-contain" />
+                <img
+                  src="/seed-probiotic-bottle-dark-green-sage-color-produc.jpg"
+                  alt="Seed Products"
+                  className="w-full h-full object-contain"
+                />
               </div>
             </div>
           </div>
