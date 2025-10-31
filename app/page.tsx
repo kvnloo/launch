@@ -48,7 +48,7 @@ export default function Home() {
               <div className="w-2 h-2 rounded-full bg-white" />
               <span className="font-medium text-white">Seed</span>
             </div>
-            <div className="flex items-center gap-4 md:gap-6 text-xs md:text-sm">
+            <div className="hidden md:flex items-center gap-6 text-sm">
               <a href="#" className="text-white hover:opacity-70 transition-opacity">
                 Shop
               </a>
